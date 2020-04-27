@@ -23,6 +23,7 @@ child1.sayName();
 
 ### 缺点
 - 引用类型的属性被所有实例共享
+
   ```javascript
   function Parent() {
     this.names = ['a', 'b', 'c'];
@@ -110,4 +111,21 @@ Child.prototype.constructor = Child;
 var child1 = new Child('super-wall');
 
 child1.sayName();
+```
+
+## Object.create 的 Polyfill
+
+> 用F函数作为中间桥梁。 实现[bind函数](https://github.com/super-wall/implement-bind-call-and-apply#bind)时，其中模拟new操作时，就是利用`Object.create`原理。
+
+```javascript
+if (typeof Object.create !== 'function') {
+  Object.create = function(proto) {
+    // 容错处理省略...
+    function F() {}
+
+    F.prototype = proto;
+
+    return new F();
+  }
+}
 ```
